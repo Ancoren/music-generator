@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 AI Music Generator</h1>
+            <p class="subtitle">MiniMax music-2.6 · Lyrics to Song</p>
+        </header>
+
+        <main>
+            <div class="form-card">
+                <div class="form-group">
+                    <label for="prompt">🎼 风格描述</label>
+                    <textarea id="prompt" rows="3" placeholder="例如：华语流行抒情歌曲，钢琴主导，弦乐烘托，温暖治愈氛围，声线温柔细腻，副歌情感递进，高潮动人"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="lyrics">📝 歌词</label>
+                    <textarea id="lyrics" rows="16" placeholder="支持结构标记：[前奏]、[主歌]、[副歌]、[说唱]、[桥段]、[尾声] 等，用回车分隔歌词"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button id="generateBtn" onclick="generateMusic()">🎵 生成音乐</button>
+                </div>
+            </div>
+
+            <div class="result-card" id="resultCard" style="display:none">
+                <div class="status-bar">
+                    <span class="status-text" id="statusText">生成中...</span>
+                    <span class="spinner" id="spinner"></span>
+                </div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="error-msg" id="errorMsg" style="display:none"></div>
+                <div class="player-area" id="playerArea" style="display:none">
+                    <audio id="audioPlayer" controls></audio>
+                    <div class="player-actions">
+                        <button class="btn-secondary" onclick="downloadTrack()">⬇ 下载 MP3</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-card">
+                <h3>💡 歌词结构参考</h3>
+                <pre>[前奏]
+钢琴轻柔 弦乐铺底
+
+[主歌1]
+歌词内容...
+
+[副歌]
+高潮部分...
+
+[说唱]
+节奏说唱...
+
+[尾声]
+渐弱结束</pre>
+                <p class="tip-note">结构标记帮助 AI 理解歌曲段落，功能词可用中文如"副歌"、"主歌"，或英文如"[Verse]"、"[Chorus]"</p>
+            </div>
+        </main>
+
+        <footer>
+            Powered by <a href="https://platform.minimax.io" target="_blank">MiniMax music-2.6</a>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
