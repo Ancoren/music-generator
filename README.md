@@ -13,7 +13,17 @@
 
 ## 快速部署
 
-### 方式一：Docker Compose（推荐，5 分钟搞定）
+## 部署方式
+
+| 方式 | 适用场景 | 难度 |
+|------|---------|------|
+| [Docker Compose](./docs/bt-panel-deploy.md#方式一宝塔终端最快推荐) | 服务器有 SSH 终端 | ⭐ |
+| [宝塔面板 Docker](./docs/bt-panel-deploy.md) | 习惯用宝塔图形化 | ⭐⭐ |
+| [Docker Compose + Traefik](./docs/bt-panel-deploy.md#方式三docker-compose--traefik自动https) | 有域名 + 要 HTTPS | ⭐⭐ |
+
+---
+
+### Docker Compose（推荐，5 分钟搞定）
 
 ```bash
 # 1. 克隆项目
