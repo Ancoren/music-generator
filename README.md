@@ -187,7 +187,9 @@ docker-compose -f docker-compose.traefik.yml up -d
 music-generator/
 ├── docker-compose.yml      # 推荐部署配置
 ├── docker-compose.traefik.yml  # HTTPS 部署配置
-├── nginx.conf              # Nginx 反向代理
+├── nginx/
+│   └── Dockerfile          # Nginx 镜像（自带配置 + 前端）
+├── nginx.conf              # Nginx 配置（供 Dockerfile COPY）
 ├── .env.example            # 环境变量模板
 ├── README.md
 ├── SPEC.md
