@@ -10,19 +10,52 @@
     <div class="container">
         <header>
             <h1>🎵 AI Music Generator</h1>
-            <p class="subtitle">MiniMax music-2.6 · Lyrics to Song</p>
+            <p class="subtitle">MiniMax music-2.6 · Lyrics → Music</p>
         </header>
 
         <main>
+            <!-- 模式切换 -->
+            <div class="mode-tabs">
+                <button class="tab active" data-mode="manual" onclick="switchMode('manual')">
+                    ✍️ 手动填词
+                </button>
+                <button class="tab" data-mode="auto" onclick="switchMode('auto')">
+                    🤖 AI 自动写词
+                </button>
+            </div>
+
+            <!-- 表单卡片 -->
             <div class="form-card">
+                <!-- 风格描述 -->
                 <div class="form-group">
                     <label for="prompt">🎼 风格描述</label>
-                    <textarea id="prompt" rows="3" placeholder="例如：华语流行抒情歌曲，钢琴主导，弦乐烘托，温暖治愈氛围，声线温柔细腻，副歌情感递进，高潮动人"></textarea>
+                    <textarea id="prompt" rows="3" placeholder="例如：华语流行抒情，钢琴主导，弦乐烘托，温暖治愈氛围，声线温柔细腻，副歌情感递进..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="lyrics">📝 歌词</label>
-                    <textarea id="lyrics" rows="16" placeholder="支持结构标记：[前奏]、[主歌]、[副歌]、[说唱]、[桥段]、[尾声] 等，用回车分隔歌词"></textarea>
+                <!-- 手动模式：歌词输入 -->
+                <div id="manualSection">
+                    <div class="form-group">
+                        <label for="lyrics">📝 歌词</label>
+                        <textarea id="lyrics" rows="14" placeholder="支持结构标记：[前奏]、[主歌]、[副歌]、[说唱]、[桥段]、[尾声] 等，用回车分隔歌词"></textarea>
+                    </div>
+                </div>
+
+                <!-- 自动模式：主题输入 -->
+                <div id="autoSection" style="display:none">
+                    <div class="form-group">
+                        <label for="theme">🎯 歌曲主题</label>
+                        <textarea id="theme" rows="2" placeholder="例如：一个人在深夜思念远方的恋人，温柔又带点忧伤"></textarea>
+                    </div>
+                    <!-- AI 生成歌词展示 -->
+                    <div id="generatedLyricsArea" style="display:none">
+                        <div class="form-group">
+                            <label for="generatedLyrics">
+                                📋 AI 生成歌词
+                                <span class="lyrics-hint">（可编辑调整后再生成音乐）</span>
+                            </label>
+                            <textarea id="generatedLyrics" rows="14"></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-actions">
@@ -30,16 +63,28 @@
                 </div>
             </div>
 
+            <!-- 结果卡片 -->
             <div class="result-card" id="resultCard" style="display:none">
+                <!-- 状态区 -->
                 <div class="status-bar">
-                    <span class="status-text" id="statusText">生成中...</span>
+                    <span class="status-text" id="statusText">准备中...</span>
                     <span class="spinner" id="spinner"></span>
                 </div>
                 <div class="progress-bar" id="progressBar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
+
+                <!-- 歌词阶段 -->
+                <div id="lyricsStage" style="display:none">
+                    <div class="lyrics-label">🤖 AI 正在生成歌词...</div>
+                </div>
+
+                <!-- 错误 -->
                 <div class="error-msg" id="errorMsg" style="display:none"></div>
+
+                <!-- 播放器 -->
                 <div class="player-area" id="playerArea" style="display:none">
+                    <div class="final-lyrics" id="finalLyrics"></div>
                     <audio id="audioPlayer" controls></audio>
                     <div class="player-actions">
                         <button class="btn-secondary" onclick="downloadTrack()">⬇ 下载 MP3</button>
@@ -47,6 +92,7 @@
                 </div>
             </div>
 
+            <!-- 提示卡片 -->
             <div class="tips-card">
                 <h3>💡 歌词结构参考</h3>
                 <pre>[前奏]
@@ -61,9 +107,12 @@
 [说唱]
 节奏说唱...
 
+[桥段]
+过渡段落...
+
 [尾声]
-渐弱结束</pre>
-                <p class="tip-note">结构标记帮助 AI 理解歌曲段落，功能词可用中文如"副歌"、"主歌"，或英文如"[Verse]"、"[Chorus]"</p>
+渐弱消失</pre>
+                <p class="tip-note">结构标记帮助 AI 理解歌曲段落，可用中文（主歌/副歌）或英文（Verse/Chorus/Rap/Bridge）</p>
             </div>
         </main>
 
