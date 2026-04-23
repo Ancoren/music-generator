@@ -249,9 +249,21 @@ async def list_tasks():
     }
 
 
-# ---------- 前端静态文件 ----------
-app.mount("/static", StaticFiles(directory=Path(__file__).parent.parent / "frontend"), name="static")
+# ---------- 前端由 Nginx 提供 ----------
+# 注意：Docker 部署时，前端页面由 nginx:80 提供，backend 只负责 API
+# 如需本地开发，backend 容器需挂载 frontend 目录
+# app.mount("/static", StaticFiles(directory=Path(__file__).parent.parent / "frontend"), name="static")
 
 @app.get("/")
 async def serve_index():
-    return FileResponse(Path(__file__).parent.parent / "frontend" / "index.html")
+    """生产环境：重定向到 API info"""
+    return JSONResponse({
+        "service": "AI Music Generator",
+        "version": "1.0",
+        "docs": "/docs",
+        "endpoints": {
+            "POST /api/generate": "提交生成任务",
+            "GET /api/status/{task_id}": "查询任务状态",
+            "GET /api/downloads/{filename}": "下载音频"
+        }
+    })
